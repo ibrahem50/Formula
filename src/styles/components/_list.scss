@@ -1,0 +1,12 @@
+@import "../colors.scss";
+
+table {
+  th {
+    font-weight: bold;
+    color: $main-color;
+  }
+  th,
+  td {
+    text-align: center;
+  }
+}

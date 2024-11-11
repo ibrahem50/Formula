@@ -1,0 +1,40 @@
+<div class="wrapper">
+  @if (races$ | async ; as races) { @if (races.RaceTable.Races.length>0) {
+  <div class="wrapper_toggle_wrapper">
+    <mat-button-toggle-group [(ngModel)]="viewMode" class="custom-toggle-group">
+      <mat-button-toggle value="list">
+        <mat-icon>menu</mat-icon></mat-button-toggle
+      >
+      <mat-button-toggle value="card"
+        ><mat-icon>dashboard</mat-icon></mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+  @if (viewMode === 'list') {
+  <div class="wrapper_list">
+    <app-race-list
+      (raceClicked)="navigateToRace($event)"
+      [races]="races"
+      (pinClicked)="togglePin($event)"
+    ></app-race-list>
+  </div>
+  } @else {
+  <div class="wrapper_card">
+    <app-race-card
+      (raceClicked)="navigateToRace($event)"
+      [races]="races"
+      (pinClicked)="togglePin($event)"
+    ></app-race-card>
+  </div>
+  }
+  <mat-paginator
+    [length]="races.total"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+  } @else {
+  <p class="wrapper-empty">No Races Yet.</p>
+  } }
+</div>

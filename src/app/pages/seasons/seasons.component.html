@@ -1,0 +1,39 @@
+<div class="wrapper">
+  @if (seasons$ | async ; as seasons) { @if
+  (seasons.SeasonTable.Seasons.length>0) {
+  <div class="wrapper_toggle_wrapper">
+    <mat-button-toggle-group [(ngModel)]="viewMode" class="custom-toggle-group">
+      <mat-button-toggle value="list">
+        <mat-icon>menu</mat-icon></mat-button-toggle
+      >
+      <mat-button-toggle value="card"
+        ><mat-icon>dashboard</mat-icon></mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+  @if (viewMode === 'list') {
+  <div class="wrapper_list">
+    <app-season-list
+      (seasonClicked)="navigateToSeason($event)"
+      [seasons]="seasons"
+    ></app-season-list>
+  </div>
+  } @else {
+  <div class="wrapper_card">
+    <app-season-card
+      (seasonClicked)="navigateToSeason($event)"
+      [seasons]="seasons"
+    ></app-season-card>
+  </div>
+  }
+  <mat-paginator
+    [length]="seasons.total"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+  } @else {
+  <p class="wrapper-empty">No Seasons Yet.</p>
+  } }
+</div>

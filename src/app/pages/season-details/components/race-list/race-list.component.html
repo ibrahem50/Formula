@@ -1,0 +1,38 @@
+<table
+  mat-table
+  [dataSource]="races.RaceTable.Races"
+  class="mat-elevation-z8 demo-table"
+>
+  @for (coulmn of displayedColumns; track $index) {
+  <ng-container [matColumnDef]="coulmn.value">
+    <th mat-header-cell *matHeaderCellDef>{{ coulmn.title }}</th>
+    <td mat-cell *matCellDef="let element">
+      @if(coulmn.value==='Circuit'){
+      {{ element[coulmn.value].circuitName }}
+      } @else if (coulmn.value === 'date') {
+      {{ element[coulmn.value] | date : "MMMM d, y" }}
+      } @else{
+      {{ element[coulmn.value] }}
+      }
+    </td>
+  </ng-container>
+  }
+  <ng-container matColumnDef="Pin">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button class="pin-btn">
+        <mat-icon class="icon" (click)="togglePin($event, element)">
+          @if(!element.isPinned){ <mat-icon>favorite_border</mat-icon>} @else{
+          <mat-icon>favorite</mat-icon>
+          }
+        </mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="getdisplayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: getdisplayedColumns"
+    (click)="navigateToRace(row)"
+  ></tr>
+</table>

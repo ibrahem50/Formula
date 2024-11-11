@@ -1,0 +1,40 @@
+.error-snackbar {
+  background-color: $main-color;
+  color: $white-color;
+}
+
+.mat-button-toggle .mat-pseudo-checkbox {
+  display: none;
+}
+
+.custom-toggle-group {
+  .mat-button-toggle-appearance-standard.mat-button-toggle-checked {
+    background-color: $main-color;
+    color: $white-color;
+  }
+}
+
+tbody {
+  tr {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.mat-mdc-card-actions {
+  flex-direction: column !important;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: $main-color !important;
+}
+
+.mat-mdc-tab .mdc-tab-indicator__content--underline {
+  border-color: $main-color !important;
+}
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: $secondary-color !important;
+  font-weight: bold;
+}

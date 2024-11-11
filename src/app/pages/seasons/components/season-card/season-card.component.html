@@ -1,0 +1,23 @@
+<div class="cards_wrapper">
+  @for (season of seasons.SeasonTable.Seasons; track season.season) {
+  <mat-card class="cards_wrapper-card" (click)="navigateToSeason(season)">
+    <mat-card-header>
+      <mat-card-title class="cards_wrapper-card-date">{{
+        season.season
+      }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-actions>
+      <a
+        (click)="clickUrl($event)"
+        class="cards_wrapper-card-url"
+        [href]="season.url"
+        mat-button
+        target="_blank"
+      >
+        {{ season.url }}
+      </a>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>

@@ -1,0 +1,30 @@
+@import "../colors.scss";
+
+.cards_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  &-card {
+    cursor: pointer;
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    align-items: center;
+    &:hover {
+      cursor: pointer;
+      outline: 1px solid $main-color;
+    }
+    &-date {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: $main-color;
+    }
+    &-url {
+      word-break: break-word;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<header class="header">
+  @if (imageUrl) {
+  <ng-container>
+    <img
+      [routerLink]="appRoutes.SEASONS"
+      class="header-img"
+      src="images/f1_logo.png"
+      alt="Header Logo"
+      class="header-img"
+    />
+  </ng-container>
+  }
+  <nav class="header_nav">
+    <a class="header_nav-link" [routerLink]="appRoutes.SEASONS"> Seasons</a>
+  </nav>
+</header>

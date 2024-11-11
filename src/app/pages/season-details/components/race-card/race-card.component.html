@@ -1,0 +1,26 @@
+<div class="cards_wrapper">
+  @for (race of races.RaceTable.Races; track race.round) {
+  <mat-card class="cards_wrapper-card" (click)="navigateToRace(race)">
+    <mat-card-header class="cards_wrapper_header">
+      <mat-icon class="icon" (click)="togglePin($event, race)">
+        @if(!race.isPinned){ <mat-icon>favorite_border</mat-icon>} @else{
+        <mat-icon>favorite</mat-icon>
+        }
+      </mat-icon>
+      <mat-card-title class="cards_wrapper-card-date">{{
+        race.raceName
+      }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-actions>
+      <p>
+        {{ race.Circuit.circuitName }}
+      </p>
+
+      <p>
+        {{ race.date | date : "MMMM d, y" }}
+      </p>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>

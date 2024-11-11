@@ -1,0 +1,16 @@
+@import "../colors.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  &_list {
+    overflow: scroll;
+  }
+  &_toggle_wrapper {
+    align-self: flex-end;
+    margin-block-end: 1rem;
+  }
+  &-empty {
+    color: $main-color;
+  }
+}
