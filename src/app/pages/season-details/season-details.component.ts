@@ -54,6 +54,8 @@ export class SeasonDetailsComponent implements OnInit {
 
   getRaces(pageIndex?: number) {
     const offset = (pageIndex || 0) * this.pageSize;
+    const pinnedRaceRounds = this.loadPinnedRaceRounds();
+
     this.races$ = this.formulaService
       .getRaces(this.seasonId, offset, this.pageSize)
       .pipe(
@@ -62,7 +64,10 @@ export class SeasonDetailsComponent implements OnInit {
             ...res,
             RaceTable: {
               ...res.RaceTable,
-              Races: res.RaceTable.Races.sort((a, b) => {
+              Races: res.RaceTable.Races.map((race) => ({
+                ...race,
+                isPinned: pinnedRaceRounds.includes(race.round),
+              })).sort((a, b) => {
                 if (a.isPinned && !b.isPinned) return -1;
                 if (!a.isPinned && b.isPinned) return 1;
                 return 0;
@@ -74,24 +79,42 @@ export class SeasonDetailsComponent implements OnInit {
         tap((res) => {
           const index = Math.floor(+res.offset / +res.limit);
           this.pageIndex = index;
-          sessionStorage.setItem(`races${this.seasonId}`, JSON.stringify(res));
         })
       );
   }
 
+  savePinnedRaceRounds(pinnedRaceRounds: string[]) {
+    sessionStorage.setItem(
+      `pinnedRaces${this.seasonId}`,
+      JSON.stringify(pinnedRaceRounds)
+    );
+  }
+
+  loadPinnedRaceRounds(): string[] {
+    const data = sessionStorage.getItem(`pinnedRaces${this.seasonId}`);
+    return data ? JSON.parse(data) : [];
+  }
+
   togglePin(race: PinnedRace) {
+    const pinnedRaceRounds = this.loadPinnedRaceRounds();
+
     this.races$ = this.races$.pipe(
       map((res) => {
+        const isPinned = !pinnedRaceRounds.includes(race.round);
+        const newPinnedRounds = isPinned
+          ? [...pinnedRaceRounds, race.round]
+          : pinnedRaceRounds.filter((round) => round !== race.round);
+
+        this.savePinnedRaceRounds(newPinnedRounds);
+
         const mapped: RaceMRData = {
           ...res,
           RaceTable: {
             ...res.RaceTable,
-            Races: res.RaceTable.Races.map((rc) => {
-              return {
-                ...rc,
-                isPinned: race.round === rc.round ? !rc.isPinned : rc.isPinned,
-              };
-            }).sort((a, b) => {
+            Races: res.RaceTable.Races.map((rc) => ({
+              ...rc,
+              isPinned: rc.round === race.round ? isPinned : rc.isPinned,
+            })).sort((a, b) => {
               if (a.isPinned && !b.isPinned) return -1;
               if (!a.isPinned && b.isPinned) return 1;
               return 0;
@@ -99,21 +122,18 @@ export class SeasonDetailsComponent implements OnInit {
           },
         };
         return mapped;
-      }),
-      tap((res) => {
-        sessionStorage.setItem(`races${this.seasonId}`, JSON.stringify(res));
       })
     );
+  }
+
+  onPageChange(event: PageEvent) {
+    const index = event.pageIndex;
+    this.getRaces(index);
   }
 
   navigateToRace(race: PinnedRace) {
     this.router.navigate([race.round], {
       relativeTo: this.route,
     });
-  }
-
-  onPageChange(event: PageEvent) {
-    const index = event.pageIndex;
-    this.getRaces(index);
   }
 }

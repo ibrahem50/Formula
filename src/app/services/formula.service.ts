@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, map, of, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay } from 'rxjs';
 import {
   RaceApiResponse,
   RaceMRData,
@@ -38,10 +38,6 @@ export class FormulaService {
     page: number,
     limit: number
   ): Observable<RaceMRData> {
-    const cachedRaces = sessionStorage.getItem(`races${seasonId}`);
-    if (cachedRaces) {
-      return of(JSON.parse(cachedRaces));
-    }
     return this.httpClient
       .get<RaceApiResponse>(
         `${environment.apiUrl}/${seasonId}/races.json?offset=${page}&limit=${limit}`
